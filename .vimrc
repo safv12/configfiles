@@ -1,3 +1,16 @@
+" language en_US
+
+if has ('win32') || has ('win64')
+	let &shell='cmd.exe'
+endif
+
+if has('nvim')
+	let s:editor_root=expand("~/AppData/Local/nvim")
+else
+	let s:editor_root=expand("~/.vim")
+	set ttymouse=xterm2
+endif
+
 set nocompatible	" be iMproved, required
 filetype off		" required
 
