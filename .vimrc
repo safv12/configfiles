@@ -44,6 +44,15 @@ Plugin 'hail2u/vim-css3-syntax'
 Plugin 'fatih/vim-go' 		" go tool wrapper
 Plugin 'zchee/deoplete-go' 	" go autocompletion using gocode
 
+" js plugins
+Plugin 'pangloss/vim-javascript' 		" js syntax highlighting
+Plugin 'moll/vim-node' 				" node.js navigation tool
+Plugin 'maksimr/vim-jsbeautify' 		" js formatting tool, uses .editorconfig
+Plugin 'mxw/vim-jsx' 				" jsx syntax highlighting and indenting
+
+" terraform plugins
+Plugin 'hashivim/vim-terraform'
+
 " all of your plugins must be added before the following line
 call vundle#end() 		    " required
 filetype plugin indent on	" required
@@ -104,3 +113,18 @@ let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 
 " echodoc
 let g:echodoc#enable_at_startup = 1
+
+" js beautify
+autocmd FileType javascript noremap <buffer> <c-f> :call JsBeautify()<cr>
+autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
+autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+
+" jsx
+let g:jsx_ext_required = 0
+
+" terraform
+let g:terraform_fmt_on_save = 1
+let g:terraform_fold_sections = 1
+let g:terraform_align = 1
