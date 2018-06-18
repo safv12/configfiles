@@ -53,6 +53,9 @@ Plugin 'mxw/vim-jsx' 				" jsx syntax highlighting and indenting
 " terraform plugins
 Plugin 'hashivim/vim-terraform'
 
+" docker plugins
+Plugin 'ekalinin/dockerfile.vim'
+
 " all of your plugins must be added before the following line
 call vundle#end() 		    " required
 filetype plugin indent on	" required
