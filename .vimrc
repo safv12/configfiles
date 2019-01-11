@@ -67,6 +67,7 @@ color dracula
 " nerdTree configuration
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+nmap <C-b> NERDTreeToggle<CR>
 
 " emmet configuration
 let g:user_emmet_install_global = 0
@@ -102,6 +103,11 @@ set wildignore+=*/node_modules/*,*/.git/*,*.swp
 
 " go-vim
 let g:go_fmt_command = "goimports"
+let g:go_highlight_structs = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 " airline (tabline)
 let g:airline_section_b='%{fugitive#statusline()}'
