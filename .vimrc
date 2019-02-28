@@ -50,9 +50,6 @@ Plugin 'moll/vim-node' 				" node.js navigation tool
 Plugin 'maksimr/vim-jsbeautify' 		" js formatting tool, uses .editorconfig
 Plugin 'mxw/vim-jsx' 				" jsx syntax highlighting and indenting
 
-" terraform plugins
-Plugin 'hashivim/vim-terraform'
-
 " docker plugins
 Plugin 'ekalinin/dockerfile.vim'
 
@@ -83,6 +80,8 @@ set cindent
 set nocompatible
 set cmdheight=2
 set completeopt-=preview
+set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+set list
 
 " remap arrow keys to NOP
 noremap <Up> <NOP>
@@ -130,8 +129,3 @@ autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
 " jsx
 let g:jsx_ext_required = 0
-
-" terraform
-let g:terraform_fmt_on_save = 1
-let g:terraform_fold_sections = 1
-let g:terraform_align = 1
