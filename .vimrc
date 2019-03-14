@@ -69,6 +69,7 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
 set number
+set t_ut=
 set hlsearch
 set tabstop=4
 set shiftwidth=4
