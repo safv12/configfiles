@@ -1,72 +1,49 @@
 " language en_US
 
 if has ('win32') || has ('win64')
-	let &shell='cmd.exe'
+    let &shell='cmd.exe'
 endif
 
-if has('nvim')
-	let s:editor_root=expand("~/AppData/Local/nvim")
-else
-	let s:editor_root=expand("~/.vim")
-	set ttymouse=xterm2
-endif
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-set nocompatible	" be iMproved, required
-filetype off		" required
-
-" set the runtime path to include Vundle and initialze
+" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" themes plugins
-Plugin 'dracula/vim'
+Plugin 'dracula/vim' " Dracula theme for vim.
+Plugin 'joshdick/onedark.vim' " One dark theme.
+Plugin 'connorholyday/vim-snazzy' " Snazzy theme for vim.
 
-" navigation/visual plugins
-Plugin 'Raimondi/delimitMate'			    " Provides auto-completion for quotes, parens, brackets, etc
-Plugin 'scrooloose/nerdtree'			    " A tree explorer
-Plugin 'airblade/vim-gitgutter'			    " Shows a git diff in the gutter
-Plugin 'tpope/vim-fugitive' 			    " git wrapper inside of vim
-Plugin 'scrooloose/syntastic' 			    " general linting
-Plugin 'ctrlpvim/ctrlp.vim' 			    " finder
-Plugin 'vim-airline/vim-airline' 		    " status line configuration
-Plugin 'vim-airline/vim-airline-themes' 	" airline plugin to support themes in status line
-Plugin 'editorconfig/editorconfig-vim' 		" formats code depending on .editorconfig
+Plugin 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
+Plugin 'airblade/vim-gitgutter' " Shows a git diff in the gutter.
+Plugin 'ctrlpvim/ctrlp.vim' " File finder with ctrl-p.
+Plugin 'editorconfig/editorconfig-vim' " EditorConfig plugin for vim.
+Plugin 'ekalinin/dockerfile.vim' " Vim syntax file & snippets for Docker's Dockerfile.
+Plugin 'pedrohdz/vim-yaml-folds' " YAML, RAML, EYAML & SaltStack SLS folding for vim.
+Plugin 'scrooloose/nerdtree' " A tree explorer for vim.
+Plugin 'tpope/vim-fugitive' " A Git wrapper.
+Plugin 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
+Plugin 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
+Plugin 'dense-analysis/ale' " Check syntax in Vim asynchronously and fix files
 
-" html/css plugins
-Plugin 'othree/html5.vim'
-Plugin 'mattn/emmet-vim'
-Plugin 'hail2u/vim-css3-syntax'
-
-" golang plugins
-Plugin 'fatih/vim-go' 		" go tool wrapper
-Plugin 'zchee/deoplete-go' 	" go autocompletion using gocode
-
-" js plugins
-Plugin 'pangloss/vim-javascript' 		" js syntax highlighting
-Plugin 'moll/vim-node' 				" node.js navigation tool
-Plugin 'maksimr/vim-jsbeautify' 		" js formatting tool, uses .editorconfig
-Plugin 'mxw/vim-jsx' 				" jsx syntax highlighting and indenting
-
-" docker plugins
-Plugin 'ekalinin/dockerfile.vim'
+" Csharp plugins
+Plugin 'OrangeT/vim-csharp'
+Plugin 'OmniSharp/omnisharp-vim'
 
 " all of your plugins must be added before the following line
-call vundle#end() 		    " required
-filetype plugin indent on	" required
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 " color theme configuration
 syntax on
-color dracula
+colorscheme onedark
 
 " nerdTree configuration
-nmap <C-b> NERDTreeToggle<CR>
-
-" emmet configuration
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
+map <C-b> :NERDTreeToggle<CR>
 
 set number
 set t_ut=
@@ -99,34 +76,37 @@ inoremap <Right> <NOP>
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set wildignore+=*/node_modules/*,*/.git/*,*.swp
 
-" go-vim
-let g:go_fmt_command = "goimports"
-let g:go_highlight_structs = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
 " airline (tabline)
 let g:airline_section_b='%{fugitive#statusline()}'
-
-" syntatic
-let g:syntastic_check_on_open=1
-let g:syntastic_go_checkers = ['golint', 'go vet']
-
-" deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 
 " echodoc
 let g:echodoc#enable_at_startup = 1
 
-" js beautify
-autocmd FileType javascript noremap <buffer> <c-f> :call JsBeautify()<cr>
-autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
-autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
-autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
-autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+" omnisharp
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_selector_ui = 'ctrlp'
 
-" jsx
-let g:jsx_ext_required = 0
+augroup omnisharp_commands
+  autocmd!
+
+  autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+  autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
+  autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
+  autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+  autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+  autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
+
+ augroup END
+
+" ALE
+let g:ale_linters = {
+\ 'cs': ['OmniSharp']
+\}
