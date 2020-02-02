@@ -15,7 +15,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'dracula/vim' " Dracula theme for vim.
-Plugin 'joshdick/onedark.vim' " One dark theme.
 Plugin 'connorholyday/vim-snazzy' " Snazzy theme for vim.
 
 Plugin 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
@@ -28,11 +27,8 @@ Plugin 'scrooloose/nerdtree' " A tree explorer for vim.
 Plugin 'tpope/vim-fugitive' " A Git wrapper.
 Plugin 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
 Plugin 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
-Plugin 'dense-analysis/ale' " Check syntax in Vim asynchronously and fix files
-
-" Csharp plugins
-Plugin 'OrangeT/vim-csharp'
-Plugin 'OmniSharp/omnisharp-vim'
+Plugin 'tpope/vim-commentary' " Comment stuff out.
+Plugin 'vim-syntastic/syntastic' " Syntax checking hacks for vim
 
 " all of your plugins must be added before the following line
 call vundle#end()            " required
@@ -40,7 +36,7 @@ filetype plugin indent on    " required
 
 " color theme configuration
 syntax on
-colorscheme onedark
+colorscheme snazzy
 
 " nerdTree configuration
 map <C-b> :NERDTreeToggle<CR>
@@ -77,36 +73,29 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 set wildignore+=*/node_modules/*,*/.git/*,*.swp
 
 " airline (tabline)
-let g:airline_section_b='%{fugitive#statusline()}'
+let g:airline_section_b='%{fugitive#statusline()} - %{kite#statusline()}'
+set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
+set laststatus=2
 
 " echodoc
 let g:echodoc#enable_at_startup = 1
 
-" omnisharp
-let g:OmniSharp_server_stdio = 1
-let g:OmniSharp_selector_ui = 'ctrlp'
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-augroup omnisharp_commands
-  autocmd!
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
-  autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
-  autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
-  autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
-  autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
-  autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
-  autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
-  autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
-  autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
-  autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
-  autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
-  autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
-  autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
-  autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
-  autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
-
- augroup END
-
-" ALE
-let g:ale_linters = {
-\ 'cs': ['OmniSharp']
-\}
+" Kite for python
+let g:kite_tab_complete=1
+set completeopt+=menuone   " Show the completions UI even with only 1 item
+set completeopt-=menu
+set completeopt+=menuone   " Show the completions UI even with only 1 item
+set completeopt-=longest   " Don't insert the longest common text
+set completeopt-=preview   " Hide the documentation preview window
+set completeopt+=noinsert  " Don't insert text automatically
+set completeopt-=noselect  " Highlight the first completion automatically
