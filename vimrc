@@ -7,35 +7,30 @@ endif
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+""" plug config
+call plug#begin("~/.vim/plugged")
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+Plug 'dracula/vim' " Dracula theme for vim.
+Plug 'connorholyday/vim-snazzy' " Snazzy theme for vim.
 
-Plugin 'dracula/vim' " Dracula theme for vim.
-Plugin 'connorholyday/vim-snazzy' " Snazzy theme for vim.
-
-Plugin 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
-Plugin 'airblade/vim-gitgutter' " Shows a git diff in the gutter.
-Plugin 'ctrlpvim/ctrlp.vim' " File finder with ctrl-p.
-Plugin 'editorconfig/editorconfig-vim' " EditorConfig plugin for vim.
-Plugin 'ekalinin/dockerfile.vim' " Vim syntax file & snippets for Docker's Dockerfile.
-Plugin 'pedrohdz/vim-yaml-folds' " YAML, RAML, EYAML & SaltStack SLS folding for vim.
-Plugin 'scrooloose/nerdtree' " A tree explorer for vim.
-Plugin 'tpope/vim-fugitive' " A Git wrapper.
-Plugin 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
-Plugin 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
-Plugin 'tpope/vim-commentary' " Comment stuff out.
-Plugin 'vim-syntastic/syntastic' " Syntax checking hacks for vim
+Plug 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
+Plug 'airblade/vim-gitgutter' " Shows a git diff in the gutter.
+Plug 'ctrlpvim/ctrlp.vim' " File finder with ctrl-p.
+Plug 'editorconfig/editorconfig-vim' " EditorConfig plugin for vim.
+Plug 'ekalinin/dockerfile.vim' " Vim syntax file & snippets for Docker's Dockerfile.
+Plug 'pedrohdz/vim-yaml-folds' " YAML, RAML, EYAML & SaltStack SLS folding for vim.
+Plug 'scrooloose/nerdtree' " A tree explorer for vim.
+Plug 'tpope/vim-fugitive' " A Git wrapper.
+Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
+Plug 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
+Plug 'tpope/vim-commentary' " Comment stuff out.
+Plug 'vim-syntastic/syntastic' " Syntax checking hacks for vim
 
 " Go plugins
-Plugin 'fatih/vim-go' " Golang plugin.
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " Golang plugin.
 
-" all of your plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()
+""" end of plug config
 
 """ theme configuration
 syntax on

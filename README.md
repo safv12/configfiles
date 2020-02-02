@@ -4,9 +4,10 @@
 
 #### Requirements
 
+- [vim-plug](https://github.com/junegunn/vim-plug)
 - flake8
 - pylint
-- Kite: https://kite.com/
+- [Kite](https://kite.com/)
 
 **Flake8 and Pylint installation**
 
