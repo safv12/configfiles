@@ -30,16 +30,24 @@ Plugin 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline
 Plugin 'tpope/vim-commentary' " Comment stuff out.
 Plugin 'vim-syntastic/syntastic' " Syntax checking hacks for vim
 
+" Go plugins
+Plugin 'fatih/vim-go' " Golang plugin.
+
 " all of your plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" color theme configuration
+""" theme configuration
 syntax on
+set background=dark
 colorscheme snazzy
+""" end of theme configuration
 
-" nerdTree configuration
+""" nerdtree 
 map <C-b> :NERDTreeToggle<CR>
+""" end of nerdtree
+
+map w!! %!sudo tee > /dev/null
 
 set number
 set t_ut=
@@ -68,19 +76,19 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 
-" ctrlp
+""" ctrlp
+set wildignore+=node_modules/**,vendor/**,obj/**,bin/Debug/**,bin/Release/**,dist/**,target/**,.git/**,**/node_modules/**,**/vendor/**,**/obj/**,**/bin/Debug/**,**/bin/Release/**,**/dist/**,**/target/**,**/.git/**,**/build/**
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|vendor|bin|obj|build)|(\.(swp|ico|git|svn))$'
+
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 set wildignore+=*/node_modules/*,*/.git/*,*.swp
+""" end of ctrlp
 
-" airline (tabline)
-let g:airline_section_b='%{fugitive#statusline()} - %{kite#statusline()}'
-set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
-set laststatus=2
+""" airline (tabline)
+let g:airline_section_b='%{fugitive#statusline()}'
+""" end of airline
 
-" echodoc
-let g:echodoc#enable_at_startup = 1
-
-" Syntastic
+""" syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -90,7 +98,12 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-" Kite for python
+let g:syntastic_go_checkers = ['golint', 'go vet', 'golangci-lint']
+let g:syntastic_yaml_checkers = ['yamllint']
+let g:syntastic_cloudformation_checkers = ['cfn_lint']
+""" end of syntastic
+
+""" kite
 let g:kite_tab_complete=1
 set completeopt+=menuone   " Show the completions UI even with only 1 item
 set completeopt-=menu
@@ -99,3 +112,8 @@ set completeopt-=longest   " Don't insert the longest common text
 set completeopt-=preview   " Hide the documentation preview window
 set completeopt+=noinsert  " Don't insert text automatically
 set completeopt-=noselect  " Highlight the first completion automatically
+""" end of kite
+
+""" go-vim
+let g:go_fmt_command = "goimports"
+""" end of go-vim
