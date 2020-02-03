@@ -42,8 +42,6 @@ colorscheme snazzy
 map <C-b> :NERDTreeToggle<CR>
 """ end of nerdtree
 
-map w!! %!sudo tee > /dev/null
-
 set number
 set t_ut=
 set hlsearch
@@ -110,5 +108,6 @@ set completeopt-=noselect  " Highlight the first completion automatically
 """ end of kite
 
 """ go-vim
+let g:go_fmt_experimental = 1
 let g:go_fmt_command = "goimports"
 """ end of go-vim
