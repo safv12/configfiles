@@ -5,6 +5,7 @@
 #### Requirements
 
 - [vim-plug](https://github.com/junegunn/vim-plug)
+- [ripgrep](bline://github.com/BurntSushi/ripgrep)
 - flake8
 - pylint
 - [Kite](https://kite.com/)

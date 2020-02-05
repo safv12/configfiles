@@ -16,7 +16,6 @@ Plug 'dracula/vim'
 " General plugins
 Plug 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
 Plug 'airblade/vim-gitgutter' " Shows a git diff in the gutter.
-Plug 'ctrlpvim/ctrlp.vim' " File finder with ctrl-p.
 Plug 'editorconfig/editorconfig-vim' " EditorConfig plugin for vim.
 Plug 'ekalinin/dockerfile.vim' " Vim syntax file & snippets for Docker's Dockerfile.
 Plug 'scrooloose/nerdtree' " A tree explorer for vim.
@@ -25,12 +24,13 @@ Plug 'tpope/vim-fugitive' " A Git wrapper.
 Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
 Plug 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
 Plug 'vim-syntastic/syntastic' " Syntax checking hacks for vim.
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant generic finder.
 
 " Go plugins
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " Golang plugin.
 
 " YAML plugins
-Plug 'pedrohdz/vim-yaml-folds' " YAML, RAML, EYAML & SaltStack SLS folding for vim.
+Plug 'pedrohdz/vim-yaml-folds'
 
 call plug#end()
 """ end of plug config
@@ -43,6 +43,9 @@ colorscheme dracula
 
 """ command mappings 
 map <C-b> :NERDTreeToggle<CR>
+map <C-p> :Clap files<CR>
+map <C-f> :Clap blines<CR>
+map <C-g> :Clap grep<CR>
 """ end of command mappings
 
 set number
@@ -70,14 +73,6 @@ inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
-
-""" ctrlp
-set wildignore+=node_modules/**,vendor/**,obj/**,bin/Debug/**,bin/Release/**,dist/**,target/**,.git/**,**/node_modules/**,**/vendor/**,**/obj/**,**/bin/Debug/**,**/bin/Release/**,**/dist/**,**/target/**,**/.git/**,**/build/**
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|vendor|bin|obj|build)|(\.(swp|ico|git|svn))$'
-
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-set wildignore+=*/node_modules/*,*/.git/*,*.swp
-""" end of ctrlp
 
 """ airline (tabline)
 let g:airline_section_b='%{fugitive#statusline()}'
