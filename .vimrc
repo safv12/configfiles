@@ -4,30 +4,34 @@ if has ('win32') || has ('win64')
     let &shell='cmd.exe'
 endif
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible " be iMproved, required
+filetype off " required
 
 """ plug config
 call plug#begin("~/.vim/plugged")
 
-Plug 'dracula/vim' " Dracula theme for vim.
-Plug 'connorholyday/vim-snazzy' " Snazzy theme for vim.
+" Theme
+Plug 'dracula/vim'
 
+" General plugins
 Plug 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
 Plug 'airblade/vim-gitgutter' " Shows a git diff in the gutter.
-Plug 'ctrlpvim/ctrlp.vim' " File finder with ctrl-p.
+" Plug 'ctrlpvim/ctrlp.vim' " File finder with ctrl-p.
 Plug 'editorconfig/editorconfig-vim' " EditorConfig plugin for vim.
 Plug 'ekalinin/dockerfile.vim' " Vim syntax file & snippets for Docker's Dockerfile.
-Plug 'pedrohdz/vim-yaml-folds' " YAML, RAML, EYAML & SaltStack SLS folding for vim.
 Plug 'scrooloose/nerdtree' " A tree explorer for vim.
+Plug 'tpope/vim-commentary' " Comment stuff out.
 Plug 'tpope/vim-fugitive' " A Git wrapper.
 Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
 Plug 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
-Plug 'tpope/vim-commentary' " Comment stuff out.
-Plug 'vim-syntastic/syntastic' " Syntax checking hacks for vim
+Plug 'vim-syntastic/syntastic' " Syntax checking hacks for vim.
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant generic finder and dispatcher for Vim and NeoVim
 
 " Go plugins
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " Golang plugin.
+
+" YAML plugins
+Plug 'pedrohdz/vim-yaml-folds' " YAML, RAML, EYAML & SaltStack SLS folding for vim.
 
 call plug#end()
 """ end of plug config
@@ -35,12 +39,14 @@ call plug#end()
 """ theme configuration
 syntax on
 set background=dark
-colorscheme snazzy
+colorscheme dracula
 """ end of theme configuration
 
-""" nerdtree 
+""" command mappings 
 map <C-b> :NERDTreeToggle<CR>
-""" end of nerdtree
+map <C-p> :Clap files<CR>
+map <C-f> :Clap blines<CR>
+""" end of command mappings
 
 set number
 set t_ut=
@@ -63,18 +69,17 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
-
 inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 
 """ ctrlp
-set wildignore+=node_modules/**,vendor/**,obj/**,bin/Debug/**,bin/Release/**,dist/**,target/**,.git/**,**/node_modules/**,**/vendor/**,**/obj/**,**/bin/Debug/**,**/bin/Release/**,**/dist/**,**/target/**,**/.git/**,**/build/**
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|vendor|bin|obj|build)|(\.(swp|ico|git|svn))$'
+" set wildignore+=node_modules/**,vendor/**,obj/**,bin/Debug/**,bin/Release/**,dist/**,target/**,.git/**,**/node_modules/**,**/vendor/**,**/obj/**,**/bin/Debug/**,**/bin/Release/**,**/dist/**,**/target/**,**/.git/**,**/build/**
+" let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|vendor|bin|obj|build)|(\.(swp|ico|git|svn))$'
 
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-set wildignore+=*/node_modules/*,*/.git/*,*.swp
+" set runtimepath^=~/.vim/bundle/ctrlp.vim
+" set wildignore+=*/node_modules/*,*/.git/*,*.swp
 """ end of ctrlp
 
 """ airline (tabline)
