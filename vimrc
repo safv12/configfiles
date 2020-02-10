@@ -12,7 +12,6 @@ call plug#begin("~/.vim/plugged")
 
 " Themes
 Plug 'dracula/vim'
-Plug 'tomasr/molokai'
 
 " General plugins
 Plug 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
@@ -27,8 +26,7 @@ Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
 Plug 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
 Plug 'w0rp/ale' " Syntax checker.
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant generic finder.
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
+Plug 'vim-scripts/BufOnly.vim'
 
 " deoplete
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "Autocompletion tool
@@ -57,7 +55,7 @@ filetype indent plugin on
 """ theme configuration
 syntax on
 set background=dark
-colorscheme molokai
+colorscheme dracula
 """ end of theme configuration
 
 """ command mappings 
@@ -65,6 +63,7 @@ map <C-b> :NERDTreeToggle<CR>
 map <C-p> :Clap files<CR>
 map <C-f> :Clap blines<CR>
 map <C-g> :Clap grep<CR>
+map <C-t> :Clap buffers<CR>
 """ end of command mappings
 
 set number
@@ -139,7 +138,6 @@ let g:asyncomplete_force_refresh_on_context_changed = 1
 """ omnisharp
 let g:OmniSharp_server_stdio = 1
 let g:OmniSharp_highlight_types = 2
-
 
 nnoremap <F2> :OmniSharpRename<CR>
 nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
