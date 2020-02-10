@@ -10,11 +10,13 @@ filetype off " required
 """ plug config
 call plug#begin("~/.vim/plugged")
 
-" Theme
+" Themes
 Plug 'dracula/vim'
+Plug 'tomasr/molokai'
 
 " General plugins
 Plug 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
+
 Plug 'airblade/vim-gitgutter' " Shows a git diff in the gutter.
 Plug 'editorconfig/editorconfig-vim' " EditorConfig plugin for vim.
 Plug 'ekalinin/dockerfile.vim' " Vim syntax file & snippets for Docker's Dockerfile.
@@ -23,8 +25,19 @@ Plug 'tpope/vim-commentary' " Comment stuff out.
 Plug 'tpope/vim-fugitive' " A Git wrapper.
 Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
 Plug 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
-Plug 'vim-syntastic/syntastic' " Syntax checking hacks for vim.
+Plug 'w0rp/ale' " Syntax checker.
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant generic finder.
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/async.vim'
+
+" deoplete
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "Autocompletion tool
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'deoplete-plugins/deoplete-go' "Go autocompletion using gocode
+
+" CloudFormation
+Plug 'speshak/vim-cfn'
 
 " Go plugins
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " Golang plugin.
@@ -32,13 +45,19 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " Golang plugin.
 " YAML plugins
 Plug 'pedrohdz/vim-yaml-folds'
 
+" CSharp
+Plug 'OrangeT/vim-csharp'
+Plug 'OmniSharp/omnisharp-vim', {'for': 'cs'}
+
 call plug#end()
 """ end of plug config
+
+filetype indent plugin on
 
 """ theme configuration
 syntax on
 set background=dark
-colorscheme dracula
+colorscheme molokai
 """ end of theme configuration
 
 """ command mappings 
@@ -78,20 +97,23 @@ inoremap <Right> <NOP>
 let g:airline_section_b='%{fugitive#statusline()}'
 """ end of airline
 
-""" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+""" ALE
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+""" end of ALE
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+""" deoplete"""
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/Code/go'
 
-let g:syntastic_go_checkers = ['golint', 'go vet', 'golangci-lint']
-let g:syntastic_yaml_checkers = ['yamllint']
-let g:syntastic_cloudformation_checkers = ['cfn_lint']
-""" end of syntastic
+let g:deoplete#sources = {}
+let g:deoplete#sources._=['buffer', 'ultisnips', 'file', 'dictionary']
+let g:deoplete#sources.cs = ['omni', 'file', 'buffer', 'ultisnips']
+
+let g:deoplete#omni#input_patterns = {}
+let g:deoplete#omni#input_patterns.cs = ['\w*']
+
+let g:deoplete#enable_smart_case = 1
+""" end: deoplete"""
 
 """ kite
 let g:kite_tab_complete=1
@@ -108,3 +130,43 @@ set completeopt-=noselect  " Highlight the first completion automatically
 let g:go_fmt_experimental = 1
 let g:go_fmt_command = "goimports"
 """ end of go-vim
+
+""" asyncomplete
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_force_refresh_on_context_changed = 1
+""" end of asyncomplete
+
+""" omnisharp
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_highlight_types = 2
+
+
+nnoremap <F2> :OmniSharpRename<CR>
+nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
+nnoremap <Leader>ss :OmniSharpStartServer<CR>
+
+augroup omnisharp_commands
+    autocmd!
+
+    autocmd CursorHold *.cs OmniSharpTypeLookup
+
+    " The following commands are contextual, based on the cursor position.
+    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+
+    " Finds members in the current buffer
+    autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+
+    autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
+
+    " Navigate up and down by method/property/field
+    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+    autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
+
+    " Find all code errors/warnings for the current solution and populate the quickfix window
+    autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
+""" end of omnisharp
