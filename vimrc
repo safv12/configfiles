@@ -28,12 +28,6 @@ Plug 'w0rp/ale' " Syntax checker.
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant generic finder.
 Plug 'vim-scripts/BufOnly.vim'
 
-" deoplete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "Autocompletion tool
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'deoplete-plugins/deoplete-go' "Go autocompletion using gocode
-
 " CloudFormation
 Plug 'speshak/vim-cfn'
 
@@ -99,20 +93,6 @@ let g:airline_section_b='%{fugitive#statusline()}'
 """ ALE
 let g:ale_linters = { 'cs': ['OmniSharp'] }
 """ end of ALE
-
-""" deoplete"""
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#gocode_binary = $GOPATH.'/Code/go'
-
-let g:deoplete#sources = {}
-let g:deoplete#sources._=['buffer', 'ultisnips', 'file', 'dictionary']
-let g:deoplete#sources.cs = ['omni', 'file', 'buffer', 'ultisnips']
-
-let g:deoplete#omni#input_patterns = {}
-let g:deoplete#omni#input_patterns.cs = ['\w*']
-
-let g:deoplete#enable_smart_case = 1
-""" end: deoplete"""
 
 """ kite
 let g:kite_tab_complete=1
