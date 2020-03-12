@@ -5,9 +5,7 @@
 
     "profiles": {
         "defaults": {
-            "colorScheme": "Material",
-            "fontFace": "Range Mono",
-            "fontSize": 12
+            "colorScheme": "Material"
         },
         "list": [
             {
