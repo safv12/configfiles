@@ -1,12 +1,5 @@
 " language en_US
 
-if has ('win32') || has ('win64')
-    let &shell='cmd.exe'
-endif
-
-set nocompatible " be iMproved, required
-filetype off " required
-
 """ plug config
 call plug#begin("~/.vim/plugged")
 
@@ -26,10 +19,11 @@ Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
 Plug 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
 Plug 'w0rp/ale' " Syntax checker.
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant generic finder.
-Plug 'vim-scripts/BufOnly.vim'
 
-" CloudFormation
-Plug 'speshak/vim-cfn'
+" deoplete
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 
 " Go plugins
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " Golang plugin.
@@ -37,9 +31,16 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " Golang plugin.
 " YAML plugins
 Plug 'pedrohdz/vim-yaml-folds'
 
-" CSharp
-Plug 'OrangeT/vim-csharp'
-Plug 'OmniSharp/omnisharp-vim', {'for': 'cs'}
+" python plugins
+Plug 'vim-python/python-syntax' "python syntax highlighting
+Plug 'tmhedberg/SimpylFold' "python folding for python-syntax
+
+" javascript
+ Plug 'pangloss/vim-javascript' "js syntax highlighting
+ Plug 'moll/vim-node' "node.js navigation tool
+ Plug 'maksimr/vim-jsbeautify' "js formatting tool, uses .editorconfig
+ Plug 'mxw/vim-jsx' "jsx syntax highlighting and indenting
+ Plug 'carlitux/deoplete-ternjs'
 
 call plug#end()
 """ end of plug config
@@ -52,7 +53,7 @@ set background=dark
 colorscheme dracula
 """ end of theme configuration
 
-""" command mappings 
+""" command mappings
 map <C-b> :NERDTreeToggle<CR>
 map <C-p> :Clap files<CR>
 map <C-f> :Clap blines<CR>
@@ -75,6 +76,7 @@ set cmdheight=2
 set completeopt-=preview
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 set list
+set dir=~/.local/share/nvim/swap
 
 " remap arrow keys to NOP
 noremap <Up> <NOP>
@@ -86,13 +88,33 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 
+"Mode Settings
+
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)]]]
+
 """ airline (tabline)
 let g:airline_section_b='%{fugitive#statusline()}'
 """ end of airline
 
 """ ALE
-let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:ale_fix_on_save = 1
+
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'js': ['eslint'],
+\}
+
+let g:ale_linters = {
+\   'js': ['eslint'],
+\   'cloudformation': ['cfn_lint'],
+\}
 """ end of ALE
+
+""" deoplete
+let g:deoplete#enable_at_startup = 1
+""" end of deoplete
 
 """ kite
 let g:kite_tab_complete=1
@@ -114,37 +136,3 @@ let g:go_fmt_command = "goimports"
 let g:asyncomplete_auto_popup = 1
 let g:asyncomplete_force_refresh_on_context_changed = 1
 """ end of asyncomplete
-
-""" omnisharp
-let g:OmniSharp_server_stdio = 1
-let g:OmniSharp_highlight_types = 2
-
-nnoremap <F2> :OmniSharpRename<CR>
-nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
-nnoremap <Leader>ss :OmniSharpStartServer<CR>
-
-augroup omnisharp_commands
-    autocmd!
-
-    autocmd CursorHold *.cs OmniSharpTypeLookup
-
-    " The following commands are contextual, based on the cursor position.
-    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
-
-    " Finds members in the current buffer
-    autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
-
-    autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
-    autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
-
-    " Navigate up and down by method/property/field
-    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
-    autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
-
-    " Find all code errors/warnings for the current solution and populate the quickfix window
-    autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
-""" end of omnisharp
