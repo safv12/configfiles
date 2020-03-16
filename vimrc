@@ -19,6 +19,8 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant
 Plug 'sheerun/vim-polyglot' " Language pack for vim.
 Plug 'pedrohdz/vim-yaml-folds'
 
+Plug 'neoclide/coc.nvim', { 'branch': 'release', 'do': ':CocInstall coc-tsserver coc-json coc-python'}
+
 " python plugins
 Plug 'vim-python/python-syntax' " python syntax highlighting
 Plug 'tmhedberg/SimpylFold' " python folding for python-syntax
