@@ -5,10 +5,7 @@ call plug#begin("~/.vim/plugged")
 
 " Themes
 Plug 'dracula/vim'
-
-" General plugins
 Plug 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
-
 Plug 'airblade/vim-gitgutter' " Shows a git diff in the gutter.
 Plug 'editorconfig/editorconfig-vim' " EditorConfig plugin for vim.
 Plug 'ekalinin/dockerfile.vim' " Vim syntax file & snippets for Docker's Dockerfile.
@@ -19,28 +16,15 @@ Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
 Plug 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
 Plug 'w0rp/ale' " Syntax checker.
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant generic finder.
-
-" deoplete
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-
-" Go plugins
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } " Golang plugin.
-
-" YAML plugins
+Plug 'sheerun/vim-polyglot' " Language pack for vim.
 Plug 'pedrohdz/vim-yaml-folds'
 
 " python plugins
-Plug 'vim-python/python-syntax' "python syntax highlighting
-Plug 'tmhedberg/SimpylFold' "python folding for python-syntax
+Plug 'vim-python/python-syntax' " python syntax highlighting
+Plug 'tmhedberg/SimpylFold' " python folding for python-syntax
 
 " javascript
- Plug 'pangloss/vim-javascript' "js syntax highlighting
- Plug 'moll/vim-node' "node.js navigation tool
  Plug 'maksimr/vim-jsbeautify' "js formatting tool, uses .editorconfig
- Plug 'mxw/vim-jsx' "jsx syntax highlighting and indenting
- Plug 'carlitux/deoplete-ternjs'
 
 call plug#end()
 """ end of plug config
@@ -76,7 +60,6 @@ set cmdheight=2
 set completeopt-=preview
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 set list
-set dir=~/.local/share/nvim/swap
 
 " remap arrow keys to NOP
 noremap <Up> <NOP>
@@ -112,10 +95,6 @@ let g:ale_linters = {
 \}
 """ end of ALE
 
-""" deoplete
-let g:deoplete#enable_at_startup = 1
-""" end of deoplete
-
 """ kite
 let g:kite_tab_complete=1
 set completeopt+=menuone   " Show the completions UI even with only 1 item
@@ -126,13 +105,3 @@ set completeopt-=preview   " Hide the documentation preview window
 set completeopt+=noinsert  " Don't insert text automatically
 set completeopt-=noselect  " Highlight the first completion automatically
 """ end of kite
-
-""" go-vim
-let g:go_fmt_experimental = 1
-let g:go_fmt_command = "goimports"
-""" end of go-vim
-
-""" asyncomplete
-let g:asyncomplete_auto_popup = 1
-let g:asyncomplete_force_refresh_on_context_changed = 1
-""" end of asyncomplete
