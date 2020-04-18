@@ -5,6 +5,7 @@ call plug#begin("~/.vim/plugged")
 
 " Themes
 Plug 'dracula/vim'
+Plug 'safv12/andromeda.vim'
 Plug 'Raimondi/delimitMate' " Auto-completion for quotes, parens, brackets
 Plug 'airblade/vim-gitgutter' " Shows a git diff in the gutter.
 Plug 'editorconfig/editorconfig-vim' " EditorConfig plugin for vim.
@@ -16,17 +17,22 @@ Plug 'vim-airline/vim-airline' " Lean & mean status/tabline for vim.
 Plug 'vim-airline/vim-airline-themes' " A collection of themes for vim-airline.
 Plug 'w0rp/ale' " Syntax checker.
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant generic finder.
-Plug 'sheerun/vim-polyglot' " Language pack for vim.
+Plug 'stephpy/vim-yaml'
 Plug 'pedrohdz/vim-yaml-folds'
-
 Plug 'neoclide/coc.nvim', { 'branch': 'release', 'do': ':CocInstall coc-tsserver coc-json coc-python'}
+
+" Elixir
+Plug 'elixir-editors/vim-elixir'
 
 " python plugins
 Plug 'vim-python/python-syntax' " python syntax highlighting
 Plug 'tmhedberg/SimpylFold' " python folding for python-syntax
 
 " javascript
- Plug 'maksimr/vim-jsbeautify' "js formatting tool, uses .editorconfig
+Plug 'maksimr/vim-jsbeautify' "js formatting tool, uses .editorconfig
+Plug 'pangloss/vim-javascript' "js syntax highlighting
+Plug 'moll/vim-node' "node.js navigation tool
+Plug 'mxw/vim-jsx' "jsx syntax highlighting and indenting
 
 call plug#end()
 """ end of plug config
@@ -36,7 +42,7 @@ filetype indent plugin on
 """ theme configuration
 syntax on
 set background=dark
-colorscheme dracula
+colorscheme andromeda
 """ end of theme configuration
 
 """ command mappings
@@ -62,6 +68,9 @@ set cmdheight=2
 set completeopt-=preview
 set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
 set list
+
+set backspace=indent,eol,start
+
 
 " remap arrow keys to NOP
 noremap <Up> <NOP>
@@ -107,3 +116,12 @@ set completeopt-=preview   " Hide the documentation preview window
 set completeopt+=noinsert  " Don't insert text automatically
 set completeopt-=noselect  " Highlight the first completion automatically
 """ end of kite
+
+" Show syntax highlighting groups for word under cursor
+nmap <C-S-T> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
