@@ -20,6 +20,10 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' } " Modern performant
 Plug 'stephpy/vim-yaml'
 Plug 'pedrohdz/vim-yaml-folds'
 Plug 'neoclide/coc.nvim', { 'branch': 'release', 'do': ':CocInstall coc-tsserver coc-json coc-python'}
+Plug 'sheerun/vim-polyglot'
+
+" Csharp
+Plug 'OmniSharp/omnisharp-vim', { 'do': ':OmniSharpInstall' }
 
 " Elixir
 Plug 'elixir-editors/vim-elixir'
@@ -103,7 +107,10 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \   'js': ['eslint'],
 \   'cloudformation': ['cfn_lint'],
+\   'cs': ['OmniSharp'],
 \}
+
+
 """ end of ALE
 
 """ kite
@@ -117,11 +124,29 @@ set completeopt+=noinsert  " Don't insert text automatically
 set completeopt-=noselect  " Highlight the first completion automatically
 """ end of kite
 
+""" OmniSharp
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_highlight_types = 2
+
+augroup omnisharp_commands
+  autocmd!
+
+  autocmd CursorHold *.cs OmniSharpTypeLookup
+  autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+  autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+
+augroup END
+
+"""
+
 " Show syntax highlighting groups for word under cursor
-nmap <C-S-T> :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
+" nmap <C-S-T> :call <SID>SynStack()<CR>
+" function! <SID>SynStack()
+"   if !exists("*synstack")
+"     return
+"   endif
+"   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+" endfunc
