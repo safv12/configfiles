@@ -7,7 +7,7 @@ set cindent
 set cmdheight=2 " Give more space for displaying messages.
 set completeopt-=preview
 set expandtab
-set hlsearch
+set nohlsearch
 set nobackup
 set noswapfile
 set nowrap

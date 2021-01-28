@@ -1,16 +1,26 @@
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/safv12/.oh-my-zsh"
+export ZSH="/home/safv12/.oh-my-zsh"
 
+# ZSH_THEME="pygmalion"
 ZSH_THEME="robbyrussell"
-plugins=(git)
+ZSH_TMUX_AUTOSTART=true
+
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git tmux aws kubectl vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export EDITOR='vim'
-export LC_ALL=en_US.UTF-8
+export GITHUB_EDITOR="nvim"
+export EDITOR="nvim"
+export VISUAL="nvim"
 
-ZSH_DISABLE_COMPFIX=true 
+# Directories aliases
+alias vim=nvim
+alias vi=nvim
 
-# Setup vim keybindings
-bindkey -v
+export PATH=$PATH:~/bin
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
